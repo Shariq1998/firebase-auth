@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
+</head>
+<body>
+    <div id="dashboard">
+        <div class="box3">
+            <img id="profilePic" alt="Profile Picture">
+           <h3 id="dash">Dashboard</h3>
+           <div id="box3a">
+           <div id="log-out">Log Out</div>
+        
+       
+        <h3 id="displayName">Welcome</h3>
+        
+           </div>
+          
+        </div>
+        <h1 id="heading2">To Do App</h1>
+       <div id="todolist">
+        <div id="box4"> 
+<input type="text" id="myInput" placeholder="Title...">
+<button class="myButton" id="myButton" >Add</button>
+</div>
+
+<ul id="myUl">
+
+</ul>
+
+<button id="clearButton">Clear List</button>
+       </div>
+        </div> 
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+        <script type="module" src="dashboard.js"></script>
+</body>
+</html>

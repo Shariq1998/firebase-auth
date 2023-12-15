@@ -1,0 +1,333 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Poppins:400,500&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+  background: #F5F7F8 ;
+  
+}
+body{
+  background-color: #F5F7F8;
+}
+
+h1{
+    display: flex;
+    justify-content: center;
+    font-family: 'Montserrat',sans-serif;
+    margin-top: 15px;
+    margin-right: 17px;
+}
+
+
+.page{
+    background-color: white;
+    padding: 20px;
+    width: 50%;
+    margin: auto;
+    margin-top: 70px;
+    border-radius: 25px;
+}
+
+
+
+
+header{
+    font-size: 33px;
+    font-weight: 600;
+    margin: 0 0 35px 20px;
+    font-family: 'Montserrat',sans-serif;
+    background: white;
+    display: flex;
+    justify-content: center;
+  }
+  .field{
+    position: relative;
+    height: 45px;
+    width: 100%;
+    display: flex;
+    background: lightblue;
+    margin-top: 16px;
+  }
+  .field span{
+    color: #222;
+    margin-left: 10px;
+    line-height: 45px;
+    background-color: lightblue;
+  }
+  .field input{
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #222;
+    font-size: 16px;
+    font-family: 'Poppins',sans-serif;
+    margin-left: 12px;
+  }
+  .space{
+    margin-top: 16px;
+  }
+
+  #field-box{
+    display: block;
+  }
+
+  .field button{
+    background: #F36666;
+    border: 1px solid #F36666;
+    color: white;
+    font-size: 18px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Montserrat',sans-serif;
+    width: 100%;
+  }
+  .field button[type="submit"]:hover{
+    background: linear-gradient(to bottom, rgb(254,187,187) 0%,rgb(254,144,144) 45%,rgb(255,92,92) 100%);
+  }
+
+  #button1{
+    height: 44px;
+  }
+
+  #button1:hover{
+    background: linear-gradient(to bottom, rgb(254,187,187) 0%,rgb(254,144,144) 45%,rgb(255,92,92) 100%);
+  }
+
+  #button2{
+    margin-top: 20px;
+    height: 44px;
+  }
+
+  #button2:hover{
+    background: linear-gradient(to bottom, rgb(254,187,187) 0%,rgb(254,144,144) 45%,rgb(255,92,92) 100%);
+  }
+
+  #button-logIn:hover{
+    background: linear-gradient(to bottom, rgb(254,187,187) 0%,rgb(254,144,144) 45%,rgb(255,92,92) 100%);
+  }
+
+  @media screen and (max-width: 675px) {
+    .page {
+      width: 80%;
+    }
+  }
+
+  #button-link{
+    margin-top: 19px;
+  }
+
+  .button{
+    font-size: 15px;
+    font-family: 'Poppins',sans-serif;
+    margin-top: 78px;
+    text-align: center;
+    background: white;
+  }
+   a{
+    color: #F36666!important;
+    text-decoration: none !important;
+    background: white;
+
+  }
+   a:hover{
+    text-decoration: underline !important;
+  }
+
+  
+
+
+
+
+#log-out:hover{
+  background: linear-gradient(to bottom, rgb(254,187,187) 0%,rgb(254,144,144) 45%,rgb(255,92,92) 100%);
+}
+
+p{
+  font-family:'Montserrat',sans-serif ;
+  margin-top: 40px;
+  text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.box3{
+  display: flex;
+
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+
+  border-bottom: solid black;
+  padding-bottom: 10px;
+  
+}
+
+#dash{
+  color: black;
+  margin-left: 13px;
+  font-size: 27px;
+  margin-top: 9px;
+  font-family: 'Montserrat',sans-serif;
+}
+
+
+
+
+
+
+#box3a{
+display: flex;
+width: 67%;
+justify-content: end;
+align-items: center;
+margin-top: 6px;
+}
+
+#displayName{
+  color: black;
+  font-family: 'Montserrat',sans-serif;
+  position: absolute;
+  
+  margin-right: 144px;
+}
+
+#profilePic{
+  width: 49px;
+  height: 41px;
+  margin-top: 9px;
+  margin-left: 24px;
+}
+
+#log-out{
+  background: #F36666;
+  border: 1px solid #F36666;
+  color: white;
+  font-size: 18px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Montserrat',sans-serif;
+  margin-right: 17px;
+  padding: 5px 13px 0px 9px;
+  height: 35px;
+  text-align: center;
+
+}
+
+#heading2{
+display: flex;
+justify-content: center;
+color: black;
+
+
+font-family: 'Montserrat',sans-serif;
+
+}
+
+
+
+
+
+#submit{
+border: 1px solid #2691d9;
+color: white;
+font-size: 14px;
+letter-spacing: 1px;
+cursor: pointer;
+font-family: 'Montserrat',sans-serif;
+}
+
+#box4{
+display: flex;
+margin: auto;
+margin-top: 35px;
+width: 100%;
+justify-content: center;
+
+}
+
+#myInput{
+background-color: white;
+color: black;
+width: 55%;
+padding: 10px;
+font-family: 'Montserrat',sans-serif;
+
+}
+
+.myButton{
+border: 1px solid #2691d9;
+background: #3498db;
+color: white;
+width: 9%;
+font-family: 'Montserrat',sans-serif;
+margin-left: 9px;
+
+}
+
+.myButton:hover{
+background: #2691d9;
+}
+
+#myUl{
+width: 96%;
+list-style: none;
+}
+.list {
+background-color: white;
+padding: 10px;
+width: 55%;
+color: black;
+border: 1px white solid;
+height: 47px;
+margin-top: 30px;
+}
+
+.myDiv{
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+
+.myCancel {
+color: black;
+background-color: white;
+border: 1px white solid;
+height: 47px;
+padding: 13px;
+cursor: pointer;
+width: 50px;
+margin-top: 30px;
+}
+
+#clearButton{
+margin-left: 44%;
+padding: 8px;
+background: #3498db;
+color: white;
+font-family: 'Montserrat',sans-serif;
+border: 1px solid #2691d9;
+margin-top: 20px;
+
+}
+
+#clearButton:hover{
+background: #2691d9;
+}
