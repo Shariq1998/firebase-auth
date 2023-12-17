@@ -1,72 +1,72 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getFirestore, collection , doc,getDocs, deleteDoc,  setDoc, query, where  } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-import { getAuth, signOut , createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {  getFirestore, collection, addDoc, getDoc, setDoc, deleteDoc, doc, updateDoc  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         // Replace with your Firebase project configuration
         const firebaseConfig = {
-    apiKey: "AIzaSyBX-KjBwPIT2IaQjK6FO5B9KWFC4DNnXHg",
-    authDomain: "hello-5f7cb.firebaseapp.com",
-    projectId: "hello-5f7cb",
-    storageBucket: "hello-5f7cb.appspot.com",
-    messagingSenderId: "942513886582",
-    appId: "1:942513886582:web:5fa79ffa6561391d171657"
-  };
+            apiKey: "AIzaSyBidQg9DV7N6X2DPtxBV8mC5GTeRlQrmio",
+            authDomain: "smit-project-f323f.firebaseapp.com",
+            projectId: "smit-project-f323f",
+            storageBucket: "smit-project-f323f.appspot.com",
+            messagingSenderId: "1095974526287",
+            appId: "1:1095974526287:web:6b1bba11e476bd47ccf93a"
+          };
 
-  // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+
+          const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
 document.addEventListener('DOMContentLoaded', function () {
-  // Retrieve user information from local storage
-  const userData = JSON.parse(localStorage.getItem('user'));
+    // Retrieve user information from local storage
+    const userData = JSON.parse(localStorage.getItem('user'));
+    
   
-
-  const userName = JSON.parse(localStorage.getItem('user-name'))
-
-  // Check if user data is available
-  if (userData) {
-    // Display user information on the dashboard
-    document.getElementById('displayName').innerText = userData.displayName;
-    document.getElementById('profilePic').src = userData.photoURL;
-  }
-  //   else {
-  //   // Handle the case when user data is not available
-  //   console.error('User data not found.');
-  // }
-
-  else if(userName){
-   document.getElementById('profilePic').style.display='none'
-    document.getElementById('displayName').innerText = userName.name
-  }
-  else{
-    console.error('error')
-  }
-});
-
-
-document.getElementById('log-out').addEventListener('click',function(){
-  const auth = getAuth();
-  signOut(auth).then(() => {
-    window.location.href = 'login.html';
-    localStorage.removeItem('user');
-    localStorage.removeItem('user-name')
-    // Sign-out successful.
-  }).catch((error) => {
-    // An error happened.
+    const userName = JSON.parse(localStorage.getItem('user-name'))
+  
+    // Check if user data is available
+    if (userData) {
+      // Display user information on the dashboard
+      document.getElementById('displayName').innerText = userData.displayName;
+      document.getElementById('profilePic').src = userData.photoURL;
+    }
+    //   else {
+    //   // Handle the case when user data is not available
+    //   console.error('User data not found.');
+    // }
+  
+    else if(userName){
+     document.getElementById('profilePic').style.display='none'
+      document.getElementById('displayName').innerText = userName.name
+    }
+    else{
+      document.getElementById('profilePic').style.display='none'
+    }
   });
-                
-            
-
-})
-
 
 const myButton = document.getElementById('myButton');
 const myInput = document.getElementById('myInput');
-var ul = document.getElementById('myUl');
+const ul = document.getElementById('myUl');
 
-// Assuming you have an array to store the user's tasks
-var userTodo = [];
+let userTodo = [];
+let userId;
+
+// Function to initialize the user
+function initUser() {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      userId = user.uid;
+      loadTasksFromFirebase(userId);
+    } else {
+      // User is not logged in
+      userId = null;
+      userTodo = [];
+      displayTasks(); // Display an empty list if not logged in
+    }
+  });
+}
+
+initUser();
 
 function displayTasks() {
   // Clear the current task list in the UI
@@ -94,7 +94,7 @@ function displayTasks() {
     // Add a click event listener to remove the task
     cancel.addEventListener('click', function () {
       // Find the index of the task to remove
-      var index = userTodo.indexOf(taskText);
+      const index = userTodo.indexOf(taskText);
 
       // Remove the task from the user's to-do list
       if (index !== -1) {
@@ -102,6 +102,9 @@ function displayTasks() {
 
         // Remove the task element from the DOM
         ul.removeChild(myDiv);
+
+        // Update tasks in Firebase after removal
+        updateTasksInFirebase(userId);
       }
     });
   });
@@ -111,7 +114,8 @@ function displayTasks() {
 displayTasks();
 
 function addButton() {
-  var myInputValue = myInput.value.trim(); // Get the input value and remove leading/trailing spaces
+    console.log('Add button clicked');
+  const myInputValue = myInput.value.trim(); // Get the input value and remove leading/trailing spaces
 
   if (myInputValue === '') {
     // Exit early if the input is empty
@@ -126,91 +130,98 @@ function addButton() {
 
   // Call the displayTasks function to update the UI
   displayTasks();
+
+  // Update tasks in Firebase after addition
+  updateTasksInFirebase(userId);
 }
-
+console.log('Setting up event listener for add button');
 // Add the event listener without invoking the function
-myButton.addEventListener('click', addButton);
-
+ myButton.addEventListener('click', addButton);
 
 const clearButton = document.getElementById('clearButton');
 clearButton.addEventListener('click', clearList);
 
 function clearList() {
-   
-    swal({
-        title: "Are you sure?",
-        text: "Once deleted, you will not be able to recover this list!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then((willDelete) => {
-        if (willDelete) {
-            while (ul.firstChild) {
-                ul.removeChild(ul.firstChild);
-                var logInUser = JSON.parse(localStorage.getItem("loginUser"));
+  swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this list!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+    .then((willDelete) => {
+      if (willDelete) {
+        while (ul.firstChild) {
+          ul.removeChild(ul.firstChild);
+        }
 
-      if (logInUser && logInUser.id) {
-        var userTodoKey = `userTodo_${logInUser.id}`;
-        localStorage.removeItem(userTodoKey);
-      }
-      const userId = logInUser.id;
-      clearTasksFromFirebase(userId);
-                
-            }
-
-          swal("Poof! Your list has been cleared!", {
-            icon: "success",
-            
-          });
-
-    
-        } 
-
-      });
-
-}
-
-function clearTasksFromFirebase(userId) {
-  const tasksRef = doc(db, 'tasks/' + userId);
-  
-  // Remove all tasks for the user in Firebase
-  deleteDoc(tasksRef)
-    .then(() => {
-      console.log('Tasks cleared from Firebase for user: ', userId);
-    })
-    .catch((error) => {
-      console.error('Error clearing tasks from Firebase: ', error);
-    });
-}
-
-const userId = localStorage.getItem('user-id');
-
-if (userId) {
-  // User is logged in, load tasks based on the user ID
-  loadTasksFromFirebase(userId);
-} else {
-  // Redirect or handle the case where the user is not logged in
-}
-
-
-function loadTasksFromFirebase(userId) {
-  const tasksCollection = collection(db, 'tasks');
-  const userTasksQuery = query(tasksCollection, where('userId', '==', userId));
-
-  getDocs(userTasksQuery)
-    .then((querySnapshot) => {
-      if (!querySnapshot.empty) {
+        // Clear the user's tasks array
         userTodo = [];
-        querySnapshot.forEach((doc) => {
-          userTodo.push(doc.data().taskText);
+
+        // Update tasks in Firebase after clearing
+        updateTasksInFirebase(userId);
+
+        swal("Poof! Your list has been cleared!", {
+          icon: "success",
         });
-        displayTasks();
-      } else {
-        console.log('No tasks found for the user');
       }
-    })
-    .catch((error) => {
-      console.error('Error loading tasks: ', error);
     });
 }
+
+document.getElementById('log-out').addEventListener('click', function () {
+    const auth = getAuth();
+    const user = auth.currentUser;
+  
+    // Check if the user is logged in
+    if (user) {
+      const userId = user.uid;
+  
+      // Update tasks in Firebase before signing out
+      updateTasksInFirebase(userId).then(() => {
+        // Sign out the user
+        signOut(auth).then(() => {
+          // Clear local storage and redirect
+          window.location.href = 'login.html';
+          localStorage.removeItem('user');
+          localStorage.removeItem('user-name');
+        }).catch((error) => {
+          // Handle sign-out errors
+          console.error('Sign-out error:', error.message);
+          swal("Error", error.message, "error");
+        });
+      });
+    }
+  });
+
+  function updateTasksInFirebase(userId) {
+    const tasksRef = doc(db, 'tasks', userId);
+  
+    // Update the tasks in Firebase
+    return setDoc(tasksRef, { tasks: userTodo })
+      .then(() => {
+        console.log('Tasks updated in Firebase for user: ', userId);
+      })
+      .catch((error) => {
+        console.error('Error updating tasks in Firebase: ', error);
+        throw error; // Re-throw the error to propagate it to the calling code
+      });
+  }
+
+  function loadTasksFromFirebase(userId) {
+    const tasksRef = doc(db, 'tasks', userId);
+getDoc(tasksRef)
+  .then((documentSnapshot) => {
+    if (documentSnapshot.exists()) {
+      userTodo = documentSnapshot.data().tasks || [];
+    } else {
+      userTodo = [];
+    }
+
+    // Call displayTasks after updating the userTodo array
+    displayTasks();
+  })
+  .catch((error) => {
+    console.error('Error loading tasks from Firebase: ', error);
+  });
+  }
+
