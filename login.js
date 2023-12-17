@@ -1,16 +1,16 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getFirestore, doc,getDoc,  setDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, getDocs,  setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         // Replace with your Firebase project configuration
         const firebaseConfig = {
-    apiKey: "AIzaSyBX-KjBwPIT2IaQjK6FO5B9KWFC4DNnXHg",
-    authDomain: "hello-5f7cb.firebaseapp.com",
-    projectId: "hello-5f7cb",
-    storageBucket: "hello-5f7cb.appspot.com",
-    messagingSenderId: "942513886582",
-    appId: "1:942513886582:web:5fa79ffa6561391d171657"
-  };
+            apiKey: "AIzaSyBidQg9DV7N6X2DPtxBV8mC5GTeRlQrmio",
+            authDomain: "smit-project-f323f.firebaseapp.com",
+            projectId: "smit-project-f323f",
+            storageBucket: "smit-project-f323f.appspot.com",
+            messagingSenderId: "1095974526287",
+            appId: "1:1095974526287:web:6b1bba11e476bd47ccf93a"
+          };
 
   // Initialize Firebase
 const app = initializeApp(firebaseConfig);
