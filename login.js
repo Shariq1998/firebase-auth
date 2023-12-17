@@ -19,9 +19,14 @@ const auth = getAuth(app);
 var allInputs = document.querySelectorAll('input');
 
 
+const userData = JSON.parse(localStorage.getItem('user'));
+  
 
+  const userName = JSON.parse(localStorage.getItem('user-name'))
 
+  document.addEventListener('DOMContentLoaded', function () {
 
+  
 
 document.getElementById('button-logIn').addEventListener('click',function(e){
 
@@ -43,8 +48,15 @@ signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
+    const userId = user.uid;
+
+    // Load tasks from Firebase for the logged-in user
+   
+    // document.getElementById('profilePic').style.display='none'
     window.location.href = 'dashboard.html'
     swal("", "Successfully logged in!", "success");
+    loadTasksFromFirebase(userId);
+   
     // ...
   })
   .catch((error) => {
@@ -57,6 +69,68 @@ signInWithEmailAndPassword(auth, email, password)
     allInputs.forEach(singleInput => singleInput.value = '');
 
 })
+  })
+
+
+function loadTasksFromFirebase(userId) {
+    const tasksRef = doc(db, 'tasks', userId);
+  
+    // Load tasks from Firebase for the user
+    getDocs(tasksRef)
+      .then((documentSnapshot) => {
+        if (documentSnapshot.exists()) {
+          userTodo = documentSnapshot.data().tasks || [];
+          console.log('Tasks loaded from Firebase:', userTodo);
+          displayTasks();
+        } else {
+          console.log('No tasks found for the user');
+        }
+      })
+      .catch((error) => {
+        console.error('Error loading tasks from Firebase: ', error);
+      });
+  }
+
+  function displayTasks() {
+    // Clear the current task list in the UI
+    ul.innerHTML = '';
+  
+    // Loop through userTodo array to display tasks
+    userTodo.forEach(function (taskText) {
+      // Create new elements for each task
+      const myDiv = document.createElement('div');
+      myDiv.className = 'myDiv';
+  
+      const myLi = document.createElement('li');
+      myLi.className = 'list';
+      myLi.textContent = taskText;
+  
+      const cancel = document.createElement('button');
+      cancel.className = 'myCancel';
+      cancel.innerHTML = 'X';
+  
+      // Add the task elements to the DOM
+      myDiv.appendChild(myLi);
+      myDiv.appendChild(cancel);
+      ul.appendChild(myDiv);
+      console.log('Displaying tasks:', userTodo);
+  
+      // Add a click event listener to remove the task
+      cancel.addEventListener('click', function () {
+        // Find the index of the task to remove
+        var index = userTodo.indexOf(taskText);
+  
+        // Remove the task from the user's to-do list
+        if (index !== -1) {
+          userTodo.splice(index, 1);
+  
+          // Remove the task element from the DOM
+          ul.removeChild(myDiv);
+        }
+      });
+    });
+    console.log('Tasks displayed on the UI:', userTodo);
+  }
 
 
 
